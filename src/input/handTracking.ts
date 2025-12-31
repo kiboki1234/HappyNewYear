@@ -56,16 +56,9 @@ export class HandTracking {
 
             // Create visible debug canvas
             this.canvas = document.createElement('canvas');
+            this.canvas.id = 'handTrackingCanvas';
             this.canvas.width = CONFIG.HAND_TRACKING.videoWidth;
             this.canvas.height = CONFIG.HAND_TRACKING.videoHeight;
-            this.canvas.style.position = 'fixed';
-            this.canvas.style.bottom = '20px';
-            this.canvas.style.left = '20px';
-            this.canvas.style.width = '320px';
-            this.canvas.style.height = '180px';
-            this.canvas.style.border = '2px solid #4fc3f7';
-            this.canvas.style.borderRadius = '8px';
-            this.canvas.style.zIndex = '200';
             document.body.appendChild(this.canvas);
             this.ctx = this.canvas.getContext('2d');
 

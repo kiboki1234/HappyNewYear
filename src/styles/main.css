@@ -422,4 +422,38 @@ body {
     width: 44px;
     height: 44px;
   }
+
+  /* Camera Indicator Mobile */
+  .camera-indicator {
+    top: 80px;
+    /* Below toggles */
+    padding: 8px 12px;
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  /* Hand Tracking Canvas Mobile */
+  #handTrackingCanvas {
+    width: 120px !important;
+    height: 67.5px !important;
+    /* 16:9 aspect ratio */
+    bottom: 10px !important;
+    left: 10px !important;
+    border-width: 1px !important;
+  }
+}
+
+/* Base styles for Hand Tracking Canvas */
+#handTrackingCanvas {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 320px;
+  height: 180px;
+  border: 2px solid #4fc3f7;
+  border-radius: 8px;
+  z-index: 200;
+  pointer-events: none;
+  /* Let clicks pass through */
+  transition: all 0.3s ease;
 }
