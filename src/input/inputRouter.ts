@@ -39,7 +39,19 @@ export class InputRouter {
         this.handControlStatus = document.getElementById('handControlStatus')!;
         this.cameraIndicator = document.getElementById('cameraIndicator')!;
 
+        this.cameraIndicator = document.getElementById('cameraIndicator')!;
+
         this.setupEventListeners();
+    }
+
+    public setDebugVisibility(visible: boolean): void {
+        // Toggle camera preview canvas
+        this.handTracking.setDebugViewVisible(visible);
+
+        // Toggle gesture debug overlay text
+        if (this.gestureDebug) {
+            this.gestureDebug.style.display = visible ? 'block' : 'none';
+        }
     }
 
     private setupEventListeners(): void {

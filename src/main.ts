@@ -83,8 +83,8 @@ class App {
 
         // Listen for camera preview toggle
         document.addEventListener('toggleCameraPreview', ((e: CustomEvent) => {
-            if (this.inputRouter && this.inputRouter.handTracking) {
-                this.inputRouter.handTracking.setDebugViewVisible(e.detail.visible);
+            if (this.inputRouter) {
+                this.inputRouter.setDebugVisibility(e.detail.visible);
             }
         }) as EventListener);
 
