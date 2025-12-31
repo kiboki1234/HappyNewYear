@@ -92,14 +92,22 @@ class App {
         if (!qualitySelect) return;
 
         // Load saved quality preference
+        // Load saved quality preference or auto-detect for mobile
         const savedQuality = localStorage.getItem('graphicsQuality') as GraphicsQuality;
+
         if (savedQuality && Object.values(GraphicsQuality).includes(savedQuality)) {
             this.currentQuality = savedQuality;
             qualitySelect.value = savedQuality;
             this.applyQualitySettings(savedQuality);
         } else {
-            qualitySelect.value = DEFAULT_QUALITY;
-            this.applyQualitySettings(DEFAULT_QUALITY);
+            // Auto-detect mobile to set lower default quality
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const defaultQuality = isMobile ? GraphicsQuality.MEDIUM : DEFAULT_QUALITY;
+
+            this.currentQuality = defaultQuality;
+            qualitySelect.value = defaultQuality;
+            this.applyQualitySettings(defaultQuality);
+            console.log(`Auto-detected quality: ${defaultQuality} (Mobile: ${isMobile})`);
         }
 
         // Listen for changes

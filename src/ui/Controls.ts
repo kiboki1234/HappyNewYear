@@ -55,6 +55,34 @@ export class Controls {
         this.cameraCloseBtn = document.getElementById('cameraClose') as HTMLButtonElement;
 
         this.setupEventListeners();
+        this.setupMobileUI();
+    }
+
+    private setupMobileUI(): void {
+        const toggleHudBtn = document.getElementById('toggleHud');
+        const toggleControlsBtn = document.getElementById('toggleControls');
+        const hud = document.getElementById('hud');
+        const controls = document.getElementById('controls');
+
+        if (toggleHudBtn && hud) {
+            toggleHudBtn.addEventListener('click', () => {
+                hud.classList.toggle('visible');
+                // Close controls if opening HUD on mobile to save space
+                if (window.innerWidth <= 768 && hud.classList.contains('visible')) {
+                    controls?.classList.remove('visible');
+                }
+            });
+        }
+
+        if (toggleControlsBtn && controls) {
+            toggleControlsBtn.addEventListener('click', () => {
+                controls.classList.toggle('visible');
+                // Close HUD if opening controls on mobile
+                if (window.innerWidth <= 768 && controls.classList.contains('visible')) {
+                    hud?.classList.remove('visible');
+                }
+            });
+        }
     }
 
     private setupEventListeners(): void {
