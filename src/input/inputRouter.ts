@@ -88,19 +88,17 @@ export class InputRouter {
 
                 // Create debug overlay
                 this.gestureDebug = document.createElement('div');
-                this.gestureDebug.style.position = 'fixed';
-                this.gestureDebug.style.bottom = '220px';
-                this.gestureDebug.style.left = '20px';
-                this.gestureDebug.style.background = 'rgba(0, 0, 0, 0.7)';
-                this.gestureDebug.style.color = '#4fc3f7';
-                this.gestureDebug.style.padding = '16px';
-                this.gestureDebug.style.borderRadius = '8px';
-                this.gestureDebug.style.fontFamily = 'monospace';
-                this.gestureDebug.style.fontSize = '14px';
-                this.gestureDebug.style.zIndex = '200';
-                this.gestureDebug.style.minWidth = '320px';
+                this.gestureDebug.className = 'gesture-debug'; // Use CSS class
                 this.gestureDebug.textContent = 'Waiting for hands...';
                 document.body.appendChild(this.gestureDebug);
+
+                // Check initial visibility state
+                const showPreviewCheckbox = document.getElementById('showCameraPreview') as HTMLInputElement;
+                if (showPreviewCheckbox && !showPreviewCheckbox.checked) {
+                    this.setDebugVisibility(false);
+                } else {
+                    this.setDebugVisibility(true);
+                }
 
                 // Setup landmark callback
                 this.handTracking.onLandmarksDetected = (landmarks) => {
