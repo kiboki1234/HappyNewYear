@@ -5,7 +5,7 @@ import { CameraController } from '../scene/Camera';
 import * as THREE from 'three';
 
 export class InputRouter {
-    private handTracking: HandTracking;
+    public handTracking: HandTracking;
     private gestureEngine: GestureEngine;
     private privacyModal: PrivacyModal;
     private cameraController: CameraController;
