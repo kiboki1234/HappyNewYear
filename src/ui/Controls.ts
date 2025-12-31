@@ -21,6 +21,7 @@ export class Controls {
     private cloudsToggle: HTMLInputElement;
     private bloomToggle: HTMLInputElement;
     private orbitToggle: HTMLInputElement;
+    private showCameraPreviewToggle: HTMLInputElement;
 
     private cameraGeneralBtn: HTMLButtonElement;
     private cameraFollowBtn: HTMLButtonElement;
@@ -49,6 +50,7 @@ export class Controls {
         this.cloudsToggle = document.getElementById('cloudsToggle') as HTMLInputElement;
         this.bloomToggle = document.getElementById('bloomToggle') as HTMLInputElement;
         this.orbitToggle = document.getElementById('orbitToggle') as HTMLInputElement;
+        this.showCameraPreviewToggle = document.getElementById('showCameraPreview') as HTMLInputElement;
 
         this.cameraGeneralBtn = document.getElementById('cameraGeneral') as HTMLButtonElement;
         this.cameraFollowBtn = document.getElementById('cameraFollow') as HTMLButtonElement;
@@ -138,6 +140,28 @@ export class Controls {
         this.cameraCloseBtn.addEventListener('click', () => {
             this.cameraController.applyPreset(CameraPreset.CLOSE_EARTH);
         });
+
+        // Camera Preview Toggle
+        if (this.showCameraPreviewToggle) {
+            this.showCameraPreviewToggle.addEventListener('change', () => {
+                const inputRouter = (window as any).app?.inputRouter;
+                if (inputRouter && inputRouter.handTracking) {
+                    inputRouter.handTracking.setDebugViewVisible(this.showCameraPreviewToggle.checked);
+                } else {
+                    // Fallback if we can't access it via global app, we can inject it or handle differently
+                    // Ideally Controls should reference InputRouter, but for now let's use a custom event or check app structure
+                    // Since Controls doesn't have direct access to InputRouter in current structure, we might need to modify constructor
+                    // But wait, let's check if we can pass it or accessing via SceneManager? No.
+                    // Let's modify Controls constructor to accept InputRouter in next step if needed, or dispatch event.
+
+                    // QUICK FIX: Dispatch custom event that main.ts can listen to, or modify main.ts
+                    const event = new CustomEvent('toggleCameraPreview', {
+                        detail: { visible: this.showCameraPreviewToggle.checked }
+                    });
+                    document.dispatchEvent(event);
+                }
+            });
+        }
     }
 
     private updateTimeScaleDisplay(scale: number): void {

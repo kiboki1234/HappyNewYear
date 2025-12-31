@@ -11,6 +11,14 @@ export class HandTracking {
     private frameInterval: number = 1000 / CONFIG.HAND_TRACKING.fps;
 
     public onLandmarksDetected?: (landmarks: any[], handedness: any[]) => void;
+    private isDebugViewVisible: boolean = true;
+
+    setDebugViewVisible(visible: boolean): void {
+        this.isDebugViewVisible = visible;
+        if (this.canvas) {
+            this.canvas.style.display = visible ? 'block' : 'none';
+        }
+    }
 
     async initialize(): Promise<boolean> {
         try {
