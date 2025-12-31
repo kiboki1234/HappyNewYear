@@ -434,12 +434,20 @@ body {
 
   /* Hand Tracking Canvas Mobile */
   #handTrackingCanvas {
-    width: 120px !important;
-    height: 67.5px !important;
+    width: 80px !important;
+    height: 45px !important;
     /* 16:9 aspect ratio */
-    bottom: 10px !important;
-    left: 10px !important;
+    bottom: 5px !important;
+    left: 5px !important;
     border-width: 1px !important;
+    opacity: 0.6;
+    /* Semi-transparent */
+    transition: opacity 0.3s;
+  }
+
+  #handTrackingCanvas:active {
+    opacity: 1;
+    /* Visible on touch */
   }
 }
 
@@ -456,4 +464,5 @@ body {
   pointer-events: none;
   /* Let clicks pass through */
   transition: all 0.3s ease;
+  background: rgba(0, 0, 0, 0.4);
 }
