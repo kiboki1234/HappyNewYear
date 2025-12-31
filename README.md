@@ -142,4 +142,5 @@ MIT License - Feel free to use and modify for your projects!
 
 ## Credits
 
-Built with Three.js, MediaPipe, and love for space 🚀
+- **Earth Implementation Reference**: Special thanks to [bobbyroe/threejs-earth](https://github.com/bobbyroe/threejs-earth) for the excellent reference on realistic Earth rendering, including textures and cloud implementation.
+- **Built with**: Three.js, MediaPipe, and love for space 🚀
