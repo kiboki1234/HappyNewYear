@@ -137,25 +137,23 @@ export class Controls {
         });
 
         // Camera Preview Toggle
-        // Camera Preview Toggle
         /* Camera preview logic moved to HandTracking close button */
     }
-}
 
     private updateTimeScaleDisplay(scale: number): void {
-    if(scale === 0) {
-    this.timeScaleValue.textContent = 'Paused';
-} else if (scale < 60) {
-    this.timeScaleValue.textContent = `${scale.toFixed(1)}x`;
-} else if (scale < 3600) {
-    const minutes = (scale / 60).toFixed(1);
-    this.timeScaleValue.textContent = `${minutes}min/sec`;
-} else if (scale < 86400) {
-    const hours = (scale / 3600).toFixed(1);
-    this.timeScaleValue.textContent = `${hours}hr/sec`;
-} else {
-    const days = (scale / 86400).toFixed(1);
-    this.timeScaleValue.textContent = `${days}day/sec`;
-}
+        if (scale === 0) {
+            this.timeScaleValue.textContent = 'Paused';
+        } else if (scale < 60) {
+            this.timeScaleValue.textContent = `${scale.toFixed(1)}x`;
+        } else if (scale < 3600) {
+            const minutes = (scale / 60).toFixed(1);
+            this.timeScaleValue.textContent = `${minutes}min/sec`;
+        } else if (scale < 86400) {
+            const hours = (scale / 3600).toFixed(1);
+            this.timeScaleValue.textContent = `${hours}hr/sec`;
+        } else {
+            const days = (scale / 86400).toFixed(1);
+            this.timeScaleValue.textContent = `${days}day/sec`;
+        }
     }
 }

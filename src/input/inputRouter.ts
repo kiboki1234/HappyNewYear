@@ -44,16 +44,6 @@ export class InputRouter {
         this.setupEventListeners();
     }
 
-    public setDebugVisibility(visible: boolean): void {
-        // Toggle camera preview canvas
-        this.handTracking.setDebugViewVisible(visible);
-
-        // Toggle gesture debug overlay text
-        if (this.gestureDebug) {
-            this.gestureDebug.style.display = visible ? 'block' : 'none';
-        }
-    }
-
     private setupEventListeners(): void {
         this.handControlToggle.addEventListener('change', () => {
             if (this.handControlToggle.checked) {
