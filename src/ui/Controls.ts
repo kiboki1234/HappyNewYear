@@ -18,10 +18,8 @@ export class Controls {
     private resetBtn: HTMLButtonElement;
 
     private atmosphereToggle: HTMLInputElement;
-    private cloudsToggle: HTMLInputElement;
     private bloomToggle: HTMLInputElement;
     private orbitToggle: HTMLInputElement;
-    private showCameraPreviewToggle: HTMLInputElement;
 
     private cameraGeneralBtn: HTMLButtonElement;
     private cameraFollowBtn: HTMLButtonElement;
@@ -47,10 +45,9 @@ export class Controls {
         this.resetBtn = document.getElementById('reset') as HTMLButtonElement;
 
         this.atmosphereToggle = document.getElementById('atmosphereToggle') as HTMLInputElement;
-        this.cloudsToggle = document.getElementById('cloudsToggle') as HTMLInputElement;
+        // this.cloudsToggle removed
         this.bloomToggle = document.getElementById('bloomToggle') as HTMLInputElement;
         this.orbitToggle = document.getElementById('orbitToggle') as HTMLInputElement;
-        this.showCameraPreviewToggle = document.getElementById('showCameraPreview') as HTMLInputElement;
 
         this.cameraGeneralBtn = document.getElementById('cameraGeneral') as HTMLButtonElement;
         this.cameraFollowBtn = document.getElementById('cameraFollow') as HTMLButtonElement;
@@ -116,9 +113,7 @@ export class Controls {
             this.earth.setAtmosphereVisible(this.atmosphereToggle.checked);
         });
 
-        this.cloudsToggle.addEventListener('change', () => {
-            this.earth.setCloudsVisible(this.cloudsToggle.checked);
-        });
+        /* cloudsToggle removed */
 
         this.bloomToggle.addEventListener('change', () => {
             this.sceneManager.setBloomEnabled(this.bloomToggle.checked);
@@ -142,42 +137,25 @@ export class Controls {
         });
 
         // Camera Preview Toggle
-        if (this.showCameraPreviewToggle) {
-            this.showCameraPreviewToggle.addEventListener('change', () => {
-                const inputRouter = (window as any).app?.inputRouter;
-                if (inputRouter && inputRouter.handTracking) {
-                    inputRouter.handTracking.setDebugViewVisible(this.showCameraPreviewToggle.checked);
-                } else {
-                    // Fallback if we can't access it via global app, we can inject it or handle differently
-                    // Ideally Controls should reference InputRouter, but for now let's use a custom event or check app structure
-                    // Since Controls doesn't have direct access to InputRouter in current structure, we might need to modify constructor
-                    // But wait, let's check if we can pass it or accessing via SceneManager? No.
-                    // Let's modify Controls constructor to accept InputRouter in next step if needed, or dispatch event.
-
-                    // QUICK FIX: Dispatch custom event that main.ts can listen to, or modify main.ts
-                    const event = new CustomEvent('toggleCameraPreview', {
-                        detail: { visible: this.showCameraPreviewToggle.checked }
-                    });
-                    document.dispatchEvent(event);
-                }
-            });
-        }
+        // Camera Preview Toggle
+        /* Camera preview logic moved to HandTracking close button */
     }
+}
 
     private updateTimeScaleDisplay(scale: number): void {
-        if (scale === 0) {
-            this.timeScaleValue.textContent = 'Paused';
-        } else if (scale < 60) {
-            this.timeScaleValue.textContent = `${scale.toFixed(1)}x`;
-        } else if (scale < 3600) {
-            const minutes = (scale / 60).toFixed(1);
-            this.timeScaleValue.textContent = `${minutes}min/sec`;
-        } else if (scale < 86400) {
-            const hours = (scale / 3600).toFixed(1);
-            this.timeScaleValue.textContent = `${hours}hr/sec`;
-        } else {
-            const days = (scale / 86400).toFixed(1);
-            this.timeScaleValue.textContent = `${days}day/sec`;
-        }
+    if(scale === 0) {
+    this.timeScaleValue.textContent = 'Paused';
+} else if (scale < 60) {
+    this.timeScaleValue.textContent = `${scale.toFixed(1)}x`;
+} else if (scale < 3600) {
+    const minutes = (scale / 60).toFixed(1);
+    this.timeScaleValue.textContent = `${minutes}min/sec`;
+} else if (scale < 86400) {
+    const hours = (scale / 3600).toFixed(1);
+    this.timeScaleValue.textContent = `${hours}hr/sec`;
+} else {
+    const days = (scale / 86400).toFixed(1);
+    this.timeScaleValue.textContent = `${days}day/sec`;
+}
     }
 }

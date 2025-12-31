@@ -86,20 +86,6 @@ export class InputRouter {
                 this.handControlStatus.className = 'status active';
                 this.cameraIndicator.style.display = 'block';
 
-                // Create debug overlay
-                this.gestureDebug = document.createElement('div');
-                this.gestureDebug.className = 'gesture-debug'; // Use CSS class
-                this.gestureDebug.textContent = 'Waiting for hands...';
-                document.body.appendChild(this.gestureDebug);
-
-                // Check initial visibility state
-                const showPreviewCheckbox = document.getElementById('showCameraPreview') as HTMLInputElement;
-                if (showPreviewCheckbox && !showPreviewCheckbox.checked) {
-                    this.setDebugVisibility(false);
-                } else {
-                    this.setDebugVisibility(true);
-                }
-
                 // Setup landmark callback
                 this.handTracking.onLandmarksDetected = (landmarks) => {
                     const gesture = this.gestureEngine.recognize(landmarks);
@@ -124,41 +110,9 @@ export class InputRouter {
         this.currentGesture = null;
         this.smoothedPinchDistance = 0;
         this.smoothedTwoHandDistance = 0;
-
-        if (this.gestureDebug) {
-            this.gestureDebug.remove();
-            this.gestureDebug = null;
-        }
     }
 
     private handleGesture(gesture: Gesture): void {
-        // Update debug display
-        if (this.gestureDebug) {
-            this.gestureDebug.innerHTML = `
-                <div style="margin-bottom: 8px;"><strong>Gesture Detection</strong></div>
-                <div>Type: <span style="color: #00ff00;">${gesture.type.toUpperCase()}</span></div>
-                <div>Confidence: ${(gesture.confidence * 100).toFixed(0)}%</div>
-                <div>Hands: <span style="color: #00ff00;">${gesture.handCount}</span></div>
-                ${gesture.position ? `
-                <div>Position:</div>
-                <div style="margin-left: 12px;">X: ${gesture.position.x.toFixed(3)}</div>
-                <div style="margin-left: 12px;">Y: ${gesture.position.y.toFixed(3)}</div>
-                <div style="margin-left: 12px;">Z: ${gesture.position.z.toFixed(3)}</div>
-                ` : ''}
-                ${gesture.velocity ? `
-                <div>Velocity:</div>
-                <div style="margin-left: 12px;">X: ${gesture.velocity.x.toFixed(4)}</div>
-                <div style="margin-left: 12px;">Y: ${gesture.velocity.y.toFixed(4)}</div>
-                ` : ''}
-                ${gesture.pinchDistance !== null ? `
-                <div style="margin-top: 8px;">Pinch Distance: <span style="color: #ffaa00;">${gesture.pinchDistance.toFixed(4)}</span></div>
-                ` : ''}
-                ${gesture.twoHandDistance !== null ? `
-                <div style="margin-top: 8px;">Two-Hand Distance: <span style="color: #ff5500;">${gesture.twoHandDistance.toFixed(4)}</span></div>
-                ` : ''}
-            `;
-        }
-
         // Lower confidence threshold for better responsiveness
         if (gesture.confidence < 0.6) return;
 

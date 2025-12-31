@@ -5,20 +5,13 @@ export class HandTracking {
     private handLandmarker: HandLandmarker | null = null;
     private video: HTMLVideoElement | null = null;
     private canvas: HTMLCanvasElement | null = null;
+    private container: HTMLDivElement | null = null;
     private ctx: CanvasRenderingContext2D | null = null;
     private isActive: boolean = false;
     private lastTime: number = 0;
     private frameInterval: number = 1000 / CONFIG.HAND_TRACKING.fps;
 
     public onLandmarksDetected?: (landmarks: any[], handedness: any[]) => void;
-    private isDebugViewVisible: boolean = true;
-
-    setDebugViewVisible(visible: boolean): void {
-        this.isDebugViewVisible = visible;
-        if (this.canvas) {
-            this.canvas.style.display = visible ? 'block' : 'none';
-        }
-    }
 
     async initialize(): Promise<boolean> {
         try {
@@ -62,12 +55,27 @@ export class HandTracking {
 
             await this.video.play();
 
-            // Create visible debug canvas
+            // Create visible debug container and canvas
+            this.container = document.createElement('div');
+            this.container.id = 'handTrackingContainer';
+            document.body.appendChild(this.container);
+
             this.canvas = document.createElement('canvas');
             this.canvas.id = 'handTrackingCanvas';
             this.canvas.width = CONFIG.HAND_TRACKING.videoWidth;
             this.canvas.height = CONFIG.HAND_TRACKING.videoHeight;
-            document.body.appendChild(this.canvas);
+            this.container.appendChild(this.canvas);
+
+            // Create close button
+            const closeBtn = document.createElement('button');
+            closeBtn.innerHTML = '×';
+            closeBtn.className = 'camera-close-btn';
+            closeBtn.title = 'Close Camera Preview';
+            closeBtn.onclick = () => {
+                if (this.container) this.container.style.display = 'none';
+            };
+            this.container.appendChild(closeBtn);
+
             this.ctx = this.canvas.getContext('2d');
 
             this.isActive = true;
@@ -88,7 +96,11 @@ export class HandTracking {
             this.video = null;
         }
 
-        if (this.canvas) {
+        if (this.container) {
+            this.container.remove();
+            this.container = null;
+            this.canvas = null;
+        } else if (this.canvas) {
             this.canvas.remove();
             this.canvas = null;
         }

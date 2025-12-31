@@ -81,13 +81,6 @@ class App {
         // Setup resize handler
         window.addEventListener('resize', () => this.onWindowResize());
 
-        // Listen for camera preview toggle
-        document.addEventListener('toggleCameraPreview', ((e: CustomEvent) => {
-            if (this.inputRouter) {
-                this.inputRouter.setDebugVisibility(e.detail.visible);
-            }
-        }) as EventListener);
-
         // Start render loop
         this.animate(0);
     }
