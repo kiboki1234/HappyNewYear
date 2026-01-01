@@ -37,9 +37,16 @@ export class TimeSystem {
     }
 
     update(deltaTimeSeconds: number): void {
-        if (!this.isPaused) {
-            const deltaMs = deltaTimeSeconds * 1000 * this.timeScale;
-            this.simulatedOffset += deltaMs;
+        const deltaMs = deltaTimeSeconds * 1000;
+
+        if (this.isPaused) {
+            // Counteract real time passage to keep simulated time frozen
+            this.simulatedOffset -= deltaMs;
+        } else {
+            // Apply only the difference between scaled time and real time
+            // If scale is 1.0, offset change is 0 (match real time)
+            // If scale is 2.0, offset increases by deltaMs (2x speed)
+            this.simulatedOffset += deltaMs * (this.timeScale - 1.0);
         }
     }
 
