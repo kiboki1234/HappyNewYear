@@ -48,6 +48,11 @@ export class TimeSystem {
             // If scale is 2.0, offset increases by deltaMs (2x speed)
             this.simulatedOffset += deltaMs * (this.timeScale - 1.0);
         }
+
+        // Debug log every ~60 frames
+        if (Math.random() < 0.016) {
+            console.log(`[TimeSystem] FPS Delta: ${deltaTimeSeconds.toFixed(4)}s, Scale: ${this.timeScale}, Offset: ${this.simulatedOffset.toFixed(2)}ms`);
+        }
     }
 
     getCurrentTime(): Date {
